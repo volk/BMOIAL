@@ -25,7 +25,8 @@ DoublyLinkedList::~DoublyLinkedList() {
 	}
 
 	if(length != 0) {
-		std::cout << "~DoublyLinkedList fails length[" << length << "]" << std::endl;
+		std::cout << "~DoublyLinkedList fails length[" << length << "]" 
+			<< std::endl;
 	}
 
 	length = 0;

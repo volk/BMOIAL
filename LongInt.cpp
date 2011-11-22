@@ -55,11 +55,6 @@ bool LongInt::positive () const {
 	return sign == POSITIVE;
 }
 
-//returns true when empty; false otherwise
-bool LongInt::empty() {
-	return l->size() == 0;
-}
-
 int LongInt::overflow(int n) {
 	return n/10000;
 }

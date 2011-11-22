@@ -8,7 +8,4 @@ tags
 
 # Object files
 *.o
-main
-
-#folders
-private/
+bmoial

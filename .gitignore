@@ -1,0 +1,14 @@
+# Swap and backup files
+.*.sw*
+.sw*
+*~
+
+#exuberant tags
+tags
+
+# Object files
+*.o
+main
+
+#folders
+private/

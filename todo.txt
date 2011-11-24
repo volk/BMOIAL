@@ -1,5 +1,3 @@
-- means not yet fixed or added; + means fixed or added
-
 -remove LongInt("0") bug
 -hold more digits in one Node
 -correct division

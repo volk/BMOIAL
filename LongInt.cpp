@@ -8,6 +8,12 @@
 #include "LongInt.h"
 
 LongInt::LongInt(std::string num) : sign(1) {
+	if(LongInt::isZero(num) == true) {
+		l = new ADTList();
+		l->insertLeft(0);
+		return;
+	}
+
 	int whole_digits;
 
 	l = new ADTList();
@@ -548,3 +554,26 @@ int LongInt::larger(ADTList* a,ADTList* b) {
 	}
 }
 
+bool LongInt::isZero(const std::string& num) 
+{
+	if(num.empty() == true) {
+		return false;
+	}
+
+	int start_indx = 0;
+
+	if(num[0] == '+' || num[0] == '-') {
+		start_indx = 1;
+	}
+
+	for(int i=start_indx; i < (int)num.length(); i++) {
+
+		if(num[i] != '0') { 
+			return false;
+		} 
+
+	}
+
+	return true;
+
+}

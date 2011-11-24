@@ -36,6 +36,10 @@ class LongInt {
 		friend LongInt operator-(LongInt& a, const LongInt & b);
 		//power
 		friend LongInt operator^(LongInt& a,int i);
+		//returns true if the numerical value of the string is 0; for example, "0"
+		//"0000" "-000000" "+0000" would cause isZero() to return true; false 
+		//otherwise
+		static bool isZero(const std::string& s);
 
 	protected:
 		//division

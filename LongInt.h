@@ -22,14 +22,18 @@ class LongInt {
 		LongInt();
 		//returns the number of digits in the LongInt
 		int digits();
+		//returns the number of digits in n
+		static int digit(int n);
 		//returns true if the LongInt is positive; false otherwise
 		bool positive () const;
 		//allows for printing into strings(eg, cout)
 		friend std::ostream& operator<<(std::ostream& os, const LongInt& Int) ;
 		//addition
 		friend LongInt operator+(LongInt& a, const LongInt & b);
+		friend LongInt operator+(LongInt& a, int b);
 		//multiplication
 		friend LongInt operator*(LongInt& a, const LongInt & b);
+		friend LongInt operator*(LongInt& a, int b);
 		//division
 		friend LongInt operator/(LongInt& a, const LongInt & b);
 		//subtraction
@@ -37,9 +41,10 @@ class LongInt {
 		//power
 		friend LongInt operator^(LongInt& a,int i);
 		//returns true if the numerical value of the string is 0; for example, "0"
-		//"0000" "-000000" "+0000" would cause isZero() to return true; false 
-		//otherwise
+		//"0000" "-000000" "+0000" would cause isZero() to return true; false //otherwise
 		static bool isZero(const std::string& s);
+		//zeros out the LongInt so LongInt as if you had performed LongInt("0")
+		void clear();
 
 	protected:
 		//division
@@ -70,15 +75,13 @@ class LongInt {
 		//returns the integers that are not in the first four digits; for example,
 		//overflow(123456) would return 12
 		static int overflow(int n);
-		//returns the number of digits in n
-		static int digit(int n);
 		//returns -1 if there is an underflow, otherwise returns 0
 		static int underflow(int n);
+		//trims the number to at most 4 digits
+		static void trim(int&);
 		//1 for positive else 0
 		int sign;
 		ADTList* l;
-
-
 };
 
 #endif 

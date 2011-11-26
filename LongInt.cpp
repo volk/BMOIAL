@@ -130,56 +130,84 @@ LongInt LongInt::sub(const LongInt& b,ADTList* la,ADTList* lb,int sgn) {
 }
 
 LongInt LongInt::div(const LongInt& b) {
-	LongInt result("1");
+	//this will be returned as final result
+	LongInt result("0");
 
-	LongInt dividend(toString());
+	LongInt* dividend = new LongInt(toString());
 	LongInt divisor(b.toString());
 
-	if(divisor.l->size() == 1 && divisor.l->firstRight()->element() == 0) {
-		//essentially crashing
+	//check if we even need to do division the special cases that the divisor is 
+	//greater than dividend or if one of them is zero or if they are equal
+	if(larger(dividend->l,divisor.l) == 0) {
 		return LongInt("1");
-	} else if(larger(dividend.l,divisor.l) == 0) {
-		return LongInt("1");
-	} else if(larger(dividend.l,divisor.l) == -1) {
-		return LongInt("1");
+	} else if(larger(dividend->l,divisor.l) == -1) {
+		return LongInt("0");
+	} else if(LongInt::isZero(divisor.toString()) == true) {
+		//throw divide by zero exception here
+		std::cout << std::endl << "Attempting to divide by zero!" << std::endl;
+		return LongInt("0");
+	} else if(LongInt::isZero(dividend->toString()) == true) {
+		return LongInt("0");
 	}
 
-	result.sign = (positive() == b.positive()); //XOR the signs of both
+	//XOR the signs of both the dividend and divisor to get sign of result
+	result.sign = (positive() == b.positive());
 
-	while(larger(dividend.l,divisor.l) == 1)
+	//terminate when divisor is larger than dividend
+	while(larger(dividend->l,divisor.l) != -1)
 	{
-		//don't have to do computation if divisor is >= dividend or divisor is 0
-		if(divisor.l->size() == 1 && divisor.l->firstRight()->element() == 0) {
+		//if divisor and dividend are now equal, then simply multiply result by 10
+		//and return
+		if(larger(dividend->l,divisor.l) == 0) {
+			result = result * 10;
 			return result;
-		} else if(larger(dividend.l,divisor.l) != 1) {
-			return result;
-		} 
+		}
 
-		//extract first few digits of divisor and dividend and divide
-		//both to get a single integral result
+//		cout << endl << "dividend(" << *dividend << ") divisor(" << divisor << ")" << endl;
+		//extract first few digits of divisor and dividend and then divide both
 		int quotient = 0;
 
-		if(firstDigits(dividend,4) >= firstDigits(divisor,4) ) {
-			quotient = firstDigits(dividend,4) / firstDigits(divisor,4);
-		} else if(firstDigits(dividend,5) >= firstDigits(divisor,4) ) {
-			quotient = firstDigits(dividend,5) / firstDigits(divisor,4);
+		if(firstDigits(*dividend,4) >= firstDigits(divisor,4) ) {
+			quotient = firstDigits(*dividend,4) / firstDigits(divisor,4);
+			
+			std::cout << "dividing " << firstDigits(*dividend,4) << " by " << 
+				firstDigits(divisor,4) << " = " << quotient;
+
+		} else if(firstDigits(*dividend,5) >= firstDigits(divisor,4) ) {
+			quotient = firstDigits(*dividend,5) / firstDigits(divisor,4);
+
+			std::cout << "dividing " << firstDigits(*dividend,5) << " by " << 
+				firstDigits(divisor,4) << " = " << quotient;
+
 		} else {
-			return LongInt("1");
+			//we will never reach this branch
+//			std::cout << "dividing " << firstDigits(*dividend,5) << " by " << 
+//				firstDigits(divisor,4) << " = " << quotient;
+			std::cout << std::endl << "Will never reach here" << std::endl;
 		}
 
-		stringstream ss;
-		ss << quotient;
+		//minuend - subtrahend = difference
+		LongInt subtrahend(divisor.toString());
+		subtrahend = subtrahend * quotient;
 
-		if(result.toString() == string("1")) {
-			result = result.add(LongInt(ss.str()));
-			result = result.sub(LongInt("1"));
-		} else { 
-			result = result * LongInt("10");
-			result = result.add(LongInt(ss.str()));
+		//pad right-hand side of subtrahend with 0s to match length of minuend
+		int padding = dividend->digits()-subtrahend.digits();
+		LongInt base("10");
+		subtrahend = subtrahend * (base^padding);
+//		std::cout << "\tsubtrahend " << subtrahend << endl;
+		subtrahend = *dividend - subtrahend;
+
+		delete dividend;
+		dividend = new LongInt(subtrahend.toString());
+//		cout << endl << "new dividend " << *dividend << endl;
+
+		if(result.toString() != string("0")) {
+			padding = LongInt::digit(quotient);
+			result = result * (base^padding);
 		}
+		result = result+quotient;
+		cout << endl << "dividend(" << *dividend << ") divisor(" << divisor << ")" << endl;
 
-		divisor = (divisor)*LongInt(ss.str());
-		divisor = divisor*LongInt("10");
 	}
 
 	return result;
@@ -221,13 +249,23 @@ LongInt LongInt::mul(const LongInt& b) {
 		curList = resultList[cur]->l;
 
 		na = lst_a->firstRight();
+		//only needs to run on first Node in list
+		bool ran_once = false;
+
+		carry = 0;
 
 		while(na != NULL) {
 			total = na->element() * start->element() + carry;
 			carry = overflow(total); 
+			LongInt::trim(total);
 
-
-			curList->insertLeft(total);
+			//only for first Node in list in first row
+			if(ran_once == false) {
+				curList->firstLeft()->setElement(total);
+				ran_once = true;
+			} else {
+				curList->insertLeft(total);
+			}
 
 			na = lst_a->nextLeft(na);
 		}
@@ -496,8 +534,20 @@ LongInt operator+(LongInt& a, const LongInt & b) {
 	return a.add(b);
 }
 
+LongInt operator+(LongInt& a, int b) {
+	std::stringstream ss;
+	ss << b;
+	return a.add(LongInt(string(ss.str())));
+}
+
 LongInt operator*(LongInt& a, const LongInt & b) {
 	return a.mul(b);
+}
+
+LongInt operator*(LongInt& a, int b) {
+	std::stringstream ss;
+	ss << b;
+	return a.mul(LongInt(string(ss.str())));
 }
 
 LongInt operator/(LongInt& a, const LongInt & b) {
@@ -512,11 +562,15 @@ LongInt operator^(LongInt& a,int i) {
 	return a.power(i);
 }
 
-//returns the first (length)(eg, 5) non-zero digits of a LongInt
+//returns the first (length)(eg, 5) non-zero digits of a LongInt; ignores sign
 int LongInt::firstDigits(const LongInt& I,int length) {
 	//we will use toString() because it truncates all 0s in the front
 
 	string s = I.toString();
+
+	if(s[0] == '+' || s[0] == '-') {
+		s.erase(s.begin());
+	} 
 
 	if(s.length() <= (unsigned int)length) {
 		return atoi(s.c_str());
@@ -554,6 +608,14 @@ int LongInt::larger(ADTList* a,ADTList* b) {
 	}
 }
 
+void LongInt::clear()
+{
+	delete l;
+	l = new ADTList();
+	l->insertLeft(0);
+	sign = POSITIVE;
+}
+
 bool LongInt::isZero(const std::string& num) 
 {
 	if(num.empty() == true) {
@@ -576,4 +638,9 @@ bool LongInt::isZero(const std::string& num)
 
 	return true;
 
+}
+
+void LongInt::trim(int& v)
+{
+	v = (abs(v))%10000;
 }

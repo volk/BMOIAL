@@ -5,12 +5,14 @@
 #include "DoublyLinkedList.h"
 
 
-DoublyLinkedList::DoublyLinkedList() {
+DoublyLinkedList::DoublyLinkedList() 
+{
 	leftTail = rightTail = NULL;
 	length = 0;
 }
 
-DoublyLinkedList::~DoublyLinkedList() {
+DoublyLinkedList::~DoublyLinkedList() 
+{
 	Node *n, *d;
 
 	if(size() != 0) {
@@ -32,20 +34,24 @@ DoublyLinkedList::~DoublyLinkedList() {
 	length = 0;
 }
 
-bool DoublyLinkedList::empty() {
+bool DoublyLinkedList::empty() 
+{
 	//bug prevention
 	return leftTail == NULL && rightTail == NULL;
 }
 
-Node* DoublyLinkedList::firstRight() {
+Node* DoublyLinkedList::firstRight() 
+{
 	return rightTail;
 }
 
-Node* DoublyLinkedList::firstLeft() {
+Node* DoublyLinkedList::firstLeft() 
+{
 	return leftTail;
 }
 
-Node* DoublyLinkedList::nextRight(Node* n) {
+Node* DoublyLinkedList::nextRight(Node* n) 
+{
 	if(n == NULL) {
 		return NULL;
 	}
@@ -53,7 +59,8 @@ Node* DoublyLinkedList::nextRight(Node* n) {
 	return n->right();
 }
 
-Node* DoublyLinkedList::nextLeft(Node* n) {
+Node* DoublyLinkedList::nextLeft(Node* n) 
+{
 	if(n == NULL) {
 		return NULL;
 	}
@@ -61,15 +68,18 @@ Node* DoublyLinkedList::nextLeft(Node* n) {
 	return n->left();
 }
 
-void DoublyLinkedList::insertRight(int n) {
+void DoublyLinkedList::insertRight(int n) 
+{
 	insertRight(new Node(n));
 }
 
-void DoublyLinkedList::insertLeft(int n) {
+void DoublyLinkedList::insertLeft(int n) 
+{
 	insertLeft(new Node(n));
 }
 
-void DoublyLinkedList::insertRight(Node* n) {
+void DoublyLinkedList::insertRight(Node* n) 
+{
 	if(n == NULL) {
 		return;
 	}
@@ -89,7 +99,8 @@ void DoublyLinkedList::insertRight(Node* n) {
 	}
 }
 
-void DoublyLinkedList::insertLeft(Node* n) {
+void DoublyLinkedList::insertLeft(Node* n) 
+{
 	if(n == NULL) {
 		return;
 	}
@@ -110,15 +121,17 @@ void DoublyLinkedList::insertLeft(Node* n) {
 	}
 }
 
-int DoublyLinkedList::size() {
+int DoublyLinkedList::size() 
+{
 	return length;
 }
 
-bool DoublyLinkedList::isFirst(Node* n) {
+bool DoublyLinkedList::isFirst(Node* n) 
+{
 	return n == leftTail;
 }
 
-bool DoublyLinkedList::isLast(Node* n) {
+bool DoublyLinkedList::isLast(Node* n) 
+{
 	return n == rightTail;
 }
-

@@ -4,7 +4,8 @@
 #include <cmath>
 #include "Node.h"
 
-Node::Node(int v) {
+Node::Node(int v) 
+{
 	if(v >= 0 && v < 9999)
 		value = v;
 	else 
@@ -13,26 +14,33 @@ Node::Node(int v) {
 
 Node::Node(int v,Node *p,Node *n) : value(v), next(n), prev(p) {}
 
-void Node::setRight(Node* n) {
+void Node::setRight(Node* n) 
+{
 	next = n;
 }
-void Node::setLeft(Node* p) {
+
+void Node::setLeft(Node* p) 
+{
 	prev = p;
 }
 
-Node* Node::right() {
+Node* Node::right() 
+{
 	return next;
 }
 
-Node* Node::left() {
+Node* Node::left() 
+{
 	return prev;
 }
 
-int Node::element() {
+int Node::element() 
+{
 	return value;
 }
 
-void Node::setElement(int v) {
+void Node::setElement(int v) 
+{
 	if(v >= 0 && v < 9999)
 		value = v;
 	else 

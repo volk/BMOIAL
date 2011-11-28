@@ -2,58 +2,72 @@
 #include "Node.h"
 #include "ADTList.h"
 
-ADTList::ADTList() {
+ADTList::ADTList() 
+{
 	list = new DoublyLinkedList();
 }
 
-ADTList::~ADTList() {
+ADTList::~ADTList() 
+{
 	delete list;
 }
 
-bool ADTList::empty() {
+bool ADTList::empty() 
+{
 	return list->empty();
 }
 
-Node* ADTList::firstRight() {
+Node* ADTList::firstRight() 
+{
 	return list->firstRight();
 }
 
-Node* ADTList::firstLeft() {
+Node* ADTList::firstLeft() 
+{
 	return list->firstLeft();
 }
 
-Node* ADTList::nextRight(Node* n) {
+Node* ADTList::nextRight(Node* n) 
+{
 	return list->nextRight(n);
 }
 
-Node* ADTList::nextLeft(Node* n) {
+Node* ADTList::nextLeft(Node* n) 
+{
 	return list->nextLeft(n);
 }
 
-void ADTList::insertRight(int n) {
+void ADTList::insertRight(int n) 
+{
 	list->insertRight(n);
 }
 
-void ADTList::insertLeft(int n) {
+void ADTList::insertLeft(int n) 
+{
 	list->insertLeft(n);
 }
 
-void ADTList::insertRight(Node* n) {
+void ADTList::insertRight(Node* n) 
+{
 	list->insertRight(n);
 }
 
-void ADTList::insertLeft(Node* n) {
+void ADTList::insertLeft(Node* n) 
+{
 	list->insertLeft(n);
 }
 
-int ADTList::size() {
+int ADTList::size() 
+{
 	return list->size();
 }
 
-bool ADTList::isLast(Node* n) {
+bool ADTList::isLast(Node* n) 
+{
 	return list->isLast(n);
 }
 
-bool ADTList::isFirst(Node* n) {
+bool ADTList::isFirst(Node* n) 
+{
 	return list->isFirst(n);
 }

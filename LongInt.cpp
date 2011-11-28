@@ -7,7 +7,8 @@
 #include "ADTList.h"
 #include "LongInt.h"
 
-LongInt::LongInt(std::string num) : sign(1) {
+LongInt::LongInt(std::string num) : sign(1) 
+{
 	if(LongInt::isZero(num) == true) {
 		l = new ADTList();
 		l->insertLeft(0);
@@ -40,12 +41,14 @@ LongInt::LongInt(std::string num) : sign(1) {
 	}
 }
 
-LongInt::LongInt() : sign(1) {
+LongInt::LongInt() : sign(1) 
+{
 	l = new ADTList();
 	l->insertLeft(0);
 }
 
-int LongInt::digits() {
+int LongInt::digits() 
+{
 	if(l->size() == 0) {
 		return 0;
 	}
@@ -57,21 +60,25 @@ int LongInt::digits() {
 }
 
 //returns POSITIVE if LongInt is >= 0 otherwise NEGATIVE
-bool LongInt::positive () const {
+bool LongInt::positive () const 
+{
 	return sign == POSITIVE;
 }
 
-int LongInt::overflow(int n) {
+int LongInt::overflow(int n) 
+{
 	return n/10000;
 }
 
-int LongInt::digit(int n) {
+int LongInt::digit(int n) 
+{
 	int i;
 	for(i=1; n/(int)pow(10,i) != 0; i++);
 	return i;
 }
 
-int LongInt::underflow(int n) {
+int LongInt::underflow(int n) 
+{
 	if(n >= 0)
 		return 0;
 	else
@@ -79,7 +86,8 @@ int LongInt::underflow(int n) {
 }
 
 // a is >= b, and sign is the sign of the result
-LongInt LongInt::sub(const LongInt& b,ADTList* la,ADTList* lb,int sgn) {
+LongInt LongInt::sub(const LongInt& b,ADTList* la,ADTList* lb,int sgn) 
+{
 	//old_carry is used to store previous value of carry when carry is changed
 	int carry = 0, old_carry = 0;
 	int sum = 0;
@@ -129,7 +137,8 @@ LongInt LongInt::sub(const LongInt& b,ADTList* la,ADTList* lb,int sgn) {
 	return result;
 }
 
-LongInt LongInt::div(const LongInt& b) {
+LongInt LongInt::div(const LongInt& b) 
+{
 	//this will be returned as final result
 	LongInt result("0");
 
@@ -213,7 +222,8 @@ LongInt LongInt::div(const LongInt& b) {
 	return result;
 }
 
-LongInt LongInt::mul(const LongInt& b) {
+LongInt LongInt::mul(const LongInt& b) 
+{
 	LongInt result;
 
 	ADTList *lst_a = l; // top number
@@ -297,7 +307,8 @@ LongInt LongInt::mul(const LongInt& b) {
 
 //sub() basically checks if we need to add or subtract depending on sign of the
 //inputs we are given
-LongInt LongInt::sub(const LongInt& b) {
+LongInt LongInt::sub(const LongInt& b) 
+{
 	//We need to determine which LongInt is greater and send it off to be 
 	//subtracted. We will use tricks such as A-B = -(B-A) to subtract.
 
@@ -334,7 +345,8 @@ LongInt LongInt::sub(const LongInt& b) {
 	return LongInt("0");
 }
 
-LongInt LongInt::add(const LongInt& b, int sgn) {
+LongInt LongInt::add(const LongInt& b, int sgn) 
+{
 	LongInt result;
 
 	ADTList *lst_a = l; // top number
@@ -387,7 +399,8 @@ LongInt LongInt::add(const LongInt& b, int sgn) {
 	return result;
 }
 
-LongInt LongInt::power(int pow) {
+LongInt LongInt::power(int pow) 
+{
 
 	//special cases
 	if(pow < 0) {
@@ -478,7 +491,8 @@ LongInt LongInt::add(const LongInt& b)
 }
 
 
-std::string LongInt::toString() const{
+std::string LongInt::toString() const
+{
 	if(l->size() == 0) {
 		return std::string("0");
 	}
@@ -530,40 +544,48 @@ std::ostream& operator<<(std::ostream& os, const LongInt& Int)
 	return os;
 } 
 
-LongInt operator+(LongInt& a, const LongInt & b) {
+LongInt operator+(LongInt& a, const LongInt & b) 
+{
 	return a.add(b);
 }
 
-LongInt operator+(LongInt& a, int b) {
+LongInt operator+(LongInt& a, int b) 
+{
 	std::stringstream ss;
 	ss << b;
 	return a.add(LongInt(string(ss.str())));
 }
 
-LongInt operator*(LongInt& a, const LongInt & b) {
+LongInt operator*(LongInt& a, const LongInt & b) 
+{
 	return a.mul(b);
 }
 
-LongInt operator*(LongInt& a, int b) {
+LongInt operator*(LongInt& a, int b) 
+{
 	std::stringstream ss;
 	ss << b;
 	return a.mul(LongInt(string(ss.str())));
 }
 
-LongInt operator/(LongInt& a, const LongInt & b) {
+LongInt operator/(LongInt& a, const LongInt & b) 
+{
 	return a.div(b);
 }
 
-LongInt operator-(LongInt& a, const LongInt & b) {
+LongInt operator-(LongInt& a, const LongInt & b) 
+{
 	return a.sub(b);
 }
 
-LongInt operator^(LongInt& a,int i) {
+LongInt operator^(LongInt& a,int i) 
+{
 	return a.power(i);
 }
 
 //returns the first (length)(eg, 5) non-zero digits of a LongInt; ignores sign
-int LongInt::firstDigits(const LongInt& I,int length) {
+int LongInt::firstDigits(const LongInt& I,int length) 
+{
 	//we will use toString() because it truncates all 0s in the front
 
 	string s = I.toString();
@@ -582,7 +604,8 @@ int LongInt::firstDigits(const LongInt& I,int length) {
 //The following function compares which of the two numbers is greater, smaller, or 
 //equal.  Returns 1 if a > b. Returns 0 if a == b. Returns -1 if a < b.
 //larger() does not take size into account!
-int LongInt::larger(ADTList* a,ADTList* b) {
+int LongInt::larger(ADTList* a,ADTList* b) 
+{
 
 	//check size by node sizes, where each node has a 4 digit number
 	if(a->size() > b->size()) {

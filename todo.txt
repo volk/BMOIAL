@@ -1,3 +1,2 @@
 -hold more digits in one Node
 -correct division
--move open curly braces to new lines in function defs
